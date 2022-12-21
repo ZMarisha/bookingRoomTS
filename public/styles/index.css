@@ -21,11 +21,12 @@ body {
     display: flex;
     align-items: center;
     width: 200px;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .avatar {
     width: 55px;
     height: 55px;
+    border-radius: 50%;
 }
 .info p {
     margin: 0;
