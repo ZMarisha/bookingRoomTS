@@ -1,6 +1,12 @@
-import { renderBlock } from './lib.js'
+import { renderBlock } from './lib.js';
 
-export function renderUserBlock (userName: string, avatarka: string, favoriteItemsAmount: number): void {
+/** Функция рентерит пользователя
+ * @param userName {string} - имя пользователя
+ * @param avatarka {string} - ссылка на аватарку
+ * @param favoriteItemsAmount {number} - количество элементов в списке желаемого
+ */
+
+export function renderUserBlock (userName: string, avatarka: string, favoriteItemsAmount?: number): void {
   const favoritesCaption = favoriteItemsAmount >= 1 ? favoriteItemsAmount : 'ничего нет'
   const hasFavoriteItems = favoriteItemsAmount ? true : false
 

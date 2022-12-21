@@ -1,3 +1,7 @@
+/**
+ * @param month - месяц
+ * @returns корректное значение 1-12 месяц
+ */
 function increaseMonth(month: number): number {
 
   if (month === 0) {
@@ -12,7 +16,9 @@ function increaseMonth(month: number): number {
 
 const float = (n) => ((n < 10) ? '0' + n : n);
 
-
+/** время прибытия
+ * @returns завтрашний день (по дефолту)
+ */
 export function getDateArrival(): string {
   const date = new Date();
   date.setDate(date.getDate() + 1);
@@ -24,7 +30,9 @@ export function getDateArrival(): string {
   return `${year}-${month}-${day}`
 }
 
-
+/** время отбытия
+ * @returns сегодняшний день + 3 дня (по дефолту)
+ */
 export function getDateDeparture(): string {
   const date = new Date();
   date.setFullYear(date.getFullYear());
@@ -34,12 +42,13 @@ export function getDateDeparture(): string {
   const months = date.getMonth();
   const month = float(increaseMonth(months));
   const day = float(date.getDate());
-  console.log(typeof(day))
   
   return `${year}-${month}-${day}`
 }
 
-
+/** min доступное время
+ * @returns сегодняшний день
+ */
 export function minDate(): string {
   const date = new Date();
   const year = date.getFullYear();
@@ -50,7 +59,9 @@ export function minDate(): string {
   return `${year}-${month}-${day}`
 }
 
-
+/** maxдоступное время
+ * @returns последний день следующего месяца
+ */
 export function maxDate(): string {
   const date = new Date();
   date.setMonth(date.getMonth() + 1);

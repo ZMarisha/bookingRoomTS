@@ -1,6 +1,10 @@
+import { searchFormFunc, ISearchFormData } from './ISearchFormData.js';
 import { renderBlock } from './lib.js';
 import { getDateDeparture, getDateArrival, minDate, maxDate } from './date.js';
+import {getSearchReasult, searchResult} from './ISearchResult.js'
 
+
+type namesType = 'checkin' | 'checkout' | 'price';
 
 
 const dateDeparture = getDateDeparture();
@@ -8,14 +12,28 @@ const dateArrival = getDateArrival();
 
 
 export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival, dateDepartureDefault: string = dateDeparture): void {
-  
   const mindate: string = minDate();
   const maxdate: string = maxDate();
-  
+
+  /** Функция собирает данные из формы
+   */
+  function search(event, cb) {
+    const formData = new FormData(event.target as HTMLFormElement);
+    const arrayNames:namesType[] = ['checkin','checkout','price']
+    const formDataEntries: ISearchFormData = {};
+
+    arrayNames.forEach(key => {
+      formDataEntries[key] = <namesType>formData.get(key)
+    })
+    searchFormFunc(formDataEntries);
+    cb();
+  }
+
   renderBlock(
     'search-form-block',
     `
-    <form>
+    <form
+    >
       <fieldset class="search-filedset">
         <div class="row">
           <div>
@@ -42,11 +60,19 @@ export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival
             <input id="max-price" type="text" value="" name="price" class="max-price" />
           </div>
           <div>
-            <div><button>Найти</button></div>
+            <div><button type='submit'>Найти</button></div>
           </div>
         </div>
       </fieldset>
     </form>
     `
   )
+
+  const form = document.querySelector('form')
+  form.addEventListener('submit', (event) => { 
+    event.preventDefault(); 
+    search(event, cb => getSearchReasult(searchResult));
+  });
 }
+
+
