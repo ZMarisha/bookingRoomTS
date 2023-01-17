@@ -1,7 +1,7 @@
 import { searchFormFunc, ISearchFormData } from './ISearchFormData.js';
 import { renderBlock } from './lib.js';
 import { getDateDeparture, getDateArrival, minDate, maxDate } from './date.js';
-import {getSearchReasult, searchResult} from './ISearchResult.js'
+import {getSearchReasult} from './renderSearchResult.js';
 
 
 type namesType = 'checkin' | 'checkout' | 'price';
@@ -26,14 +26,13 @@ export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival
       formDataEntries[key] = <namesType>formData.get(key)
     })
     searchFormFunc(formDataEntries);
-    cb();
+    cb(formDataEntries.price);
   }
 
   renderBlock(
     'search-form-block',
     `
-    <form
-    >
+    <form>
       <fieldset class="search-filedset">
         <div class="row">
           <div>
@@ -71,7 +70,7 @@ export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival
   const form = document.querySelector('form')
   form.addEventListener('submit', (event) => { 
     event.preventDefault(); 
-    search(event, cb => getSearchReasult(searchResult));
+    search(event, getSearchReasult);
   });
 }
 

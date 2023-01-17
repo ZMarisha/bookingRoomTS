@@ -6,6 +6,7 @@ import { renderBlock } from './lib.js';
  * @param favoriteItemsAmount {number} - количество элементов в списке желаемого
  */
 
+
 export function renderUserBlock (userName: string, avatarka: string, favoriteItemsAmount?: number): void {
   const favoritesCaption = favoriteItemsAmount >= 1 ? favoriteItemsAmount : 'ничего нет'
   const hasFavoriteItems = favoriteItemsAmount ? true : false
@@ -25,4 +26,7 @@ export function renderUserBlock (userName: string, avatarka: string, favoriteIte
     </div>
     `
   )
+  const blockEl = document.querySelector('.info')
+  const iconEl = blockEl.querySelector('.heart-icon');
+  iconEl.addEventListener('click', () => alert(`В процессе разработки`))
 }

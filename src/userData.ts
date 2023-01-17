@@ -12,10 +12,9 @@ const user = {
   userName: 'Marina', 
   avatarUrl: 'https://abrakadabra.fun/uploads/posts/2022-03/1647809364_1-abrakadabra-fun-p-milie-avatarki-na-vatsap-2.jpg'
 };
-const favoritesAmount = 10;
+
 
 localStorage.setItem('user', JSON.stringify(user));
-localStorage.setItem('favoritesAmount', favoritesAmount.toString());
 
 /** Функция 
  * @param key {string} - получение данных из localStorage по ключу
@@ -35,13 +34,14 @@ export function getUserData(key: string) {
 
 /** 
  * @param key {string} - получение данных из localStorage по ключу
- * @returns количество элементов в списке желаемого или null
+ * @returns массив rooms из избранного или null
  */
 
 export function getFavoritesAmount(key: string) {
-  const item: unknown = localStorage.getItem(key);
-  if (item === null) {
-    throw Error('favoritesAmount field is empty.')
+  const amount:[] = JSON.parse(localStorage.getItem(key));
+  if (amount) {
+    return amount;
+  } else {
+    throw Error('Empty')
   }
-  return item;
 }

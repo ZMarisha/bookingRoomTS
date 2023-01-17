@@ -4,6 +4,11 @@ export interface ISearchFormData {
   price?: string;
 }
 
-export const searchFormFunc = (formData: ISearchFormData): void => {
+export let selectedDates:ISearchFormData = {};
+
+export const searchFormFunc = (formData: ISearchFormData) => {
   console.log(formData)
+  selectedDates = formData;
+  return selectedDates
 }
+
