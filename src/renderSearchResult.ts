@@ -3,11 +3,11 @@ import { renderSearchResultsBlock, renderEmptyOrErrorSearchBlock } from './searc
 /**
  * @param result - цена за сутки
  */ 
- export function getSearchReasult(result:string) {
+ export function getSearchReasult(data) {
   setTimeout(() => {
-    if (result === '') {
+    if (data.length === 0) {
       return renderEmptyOrErrorSearchBlock('No Data')
     }
-    return renderSearchResultsBlock(result);
+    return renderSearchResultsBlock();
   }, 1500)
 }

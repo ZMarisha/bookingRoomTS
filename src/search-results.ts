@@ -1,18 +1,7 @@
 import { writeState, removeState } from './favoriteItem.js';
 import { renderBlock } from './lib.js';
-import { BookingRooms, Place } from './ISearchResult.js';
-import { bookRoom } from './bookingRooms.js'
-
-export const arrayBookingRooms:Place[] = [];
-
-export function addPlaces () {
-  const bookingRooms = JSON.parse(window.localStorage.getItem('places'));
-  Object.setPrototypeOf(bookingRooms, BookingRooms.prototype);
-  
-  Object.keys(bookingRooms.places).forEach(key => {
-    arrayBookingRooms.push(bookingRooms.places[key])
-  })
-};
+import { bookRoom } from './bookingRooms.js';
+import { data } from './services.js';
 
 
 export function renderSearchStubBlock () {
@@ -40,8 +29,7 @@ export function renderEmptyOrErrorSearchBlock (reasonMessage) {
 }
 
 
-export function renderSearchResultsBlock (result:string) {
-  addPlaces();
+export function renderSearchResultsBlock () {
   renderBlock(
     'search-results-block',
     `
@@ -57,8 +45,7 @@ export function renderSearchResultsBlock (result:string) {
       </div>
     </div>
     <ul class="results-list">
-    ${arrayBookingRooms.map(el => {
-        if (el.price <= Number(result)) {
+    ${data.map(el => {
           return `
             <li class="result">
               <div class="result-container">
@@ -80,9 +67,7 @@ export function renderSearchResultsBlock (result:string) {
                   </div>
                 </div>
               </div>
-            </li>
-          `
-        }
+            </li>`
       })
     }
     </ul>
@@ -106,7 +91,7 @@ export function renderSearchResultsBlock (result:string) {
     });
 
     btn.addEventListener('click', () => {
-      const btnId:number = Number(btn.id);
+      const btnId:string= btn.id;
       bookRoom(btnId)
     });
   });

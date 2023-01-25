@@ -1,14 +1,14 @@
-import { Place } from './ISearchResult';
 import { rerenderUserBlock } from "./index.js";
-import { arrayBookingRooms } from './search-results.js';
+import { data } from './services.js';
+import { IDataServices } from './IDataServices';
 
 
-type FavoriteItems = Pick<Place, 'id' | 'name' | 'image'>
+type FavoriteItems = Pick<IDataServices, 'id' | 'name' | 'image'>
 
 let favoriteItems:FavoriteItems[] = [];
 
 export function writeState (id: string) {
-  const filterItem:Place = arrayBookingRooms.find(item => item.id === Number(id));
+  const filterItem = data.find(item => (item.id).toString() === id);
   delete filterItem.description;
   delete filterItem.remoteness;
   delete filterItem.bookedDates;
@@ -21,7 +21,7 @@ export function writeState (id: string) {
 }
 
 export function removeState (id: string) {
-  const filterItem = favoriteItems.filter(item => item.id !== Number(id));
+  const filterItem = favoriteItems.filter(item => (item.id).toString() !== id);
   favoriteItems = filterItem;
   localStorage.setItem('favoriteItems', JSON.stringify(favoriteItems))
   console.log(favoriteItems);

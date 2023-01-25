@@ -13,8 +13,8 @@ const user = {
   avatarUrl: 'https://abrakadabra.fun/uploads/posts/2022-03/1647809364_1-abrakadabra-fun-p-milie-avatarki-na-vatsap-2.jpg'
 };
 
-
-localStorage.setItem('user', JSON.stringify(user));
+const checkout = typeof window !== 'undefined' ? localStorage.setItem('user', JSON.stringify(user)) : null
+//localStorage.setItem('user', JSON.stringify(user));
 
 /** Функция 
  * @param key {string} - получение данных из localStorage по ключу

@@ -1,34 +1,23 @@
-import { Place } from './ISearchResult';
-import { selectedDates } from './ISearchFormData.js';
-import { BookingRooms } from './ISearchResult.js';
+import { selectedDates } from './services.js';
 import { renderToast } from './lib.js';
+import { data } from './services.js'
+import { IDataServices } from './IDataServices.js';
 
-const places:Place[] = [];
-let bookingRooms:Place[] = [];
+
+const bookingRooms:IDataServices[] = [];
 const message = {
   type: 'successfully',
   text: 'Бронирование прошло успешно'
 }
 
-
-function getAllPlaces () {
-  const bookingRooms = JSON.parse(window.localStorage.getItem('places'));
-  Object.setPrototypeOf(bookingRooms, BookingRooms.prototype);
-  
-  Object.keys(bookingRooms.places).forEach(key => {
-    places.push(bookingRooms.places[key])
-  })
-};
-
-
 /**
  * функция фильтрует массив и записывает в localStorage
  * @param selectedDates - выбранные даты; 
  */
-export function bookRoom (id:number) {
-  getAllPlaces();
-  const filterPlace = places.find(item => item.id === id);
+export function bookRoom (id:string) {
+  const filterPlace = data.find(item => (item.id).toString() === id);
   delete selectedDates.price;
+  delete selectedDates.provider
   filterPlace.bookedDates = selectedDates;
   renderToast(message, null);
   bookingRooms.push(filterPlace);

@@ -1,4 +1,5 @@
 import { renderBlock } from './lib.js';
+import { getModalView } from './modalView.js';
 
 /** Функция рентерит пользователя
  * @param userName {string} - имя пользователя
@@ -27,6 +28,6 @@ export function renderUserBlock (userName: string, avatarka: string, favoriteIte
     `
   )
   const blockEl = document.querySelector('.info')
-  const iconEl = blockEl.querySelector('.heart-icon');
-  iconEl.addEventListener('click', () => alert(`В процессе разработки`))
+  const iconEl = blockEl.querySelector('.fav');
+  iconEl.addEventListener('click', () => getModalView())
 }

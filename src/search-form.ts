@@ -1,7 +1,9 @@
-import { searchFormFunc, ISearchFormData } from './ISearchFormData.js';
+import { ISearchFormData } from './ISearchFormData.js';
+import { searchFormFunc } from './services.js';
 import { renderBlock } from './lib.js';
 import { getDateDeparture, getDateArrival, minDate, maxDate } from './date.js';
 import {getSearchReasult} from './renderSearchResult.js';
+import { data } from './services.js'
 
 
 type namesType = 'checkin' | 'checkout' | 'price';
@@ -11,22 +13,27 @@ const dateDeparture = getDateDeparture();
 const dateArrival = getDateArrival();
 
 
+
 export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival, dateDepartureDefault: string = dateDeparture): void {
   const mindate: string = minDate();
   const maxdate: string = maxDate();
 
   /** Функция собирает данные из формы
    */
-  function search(event, cb) {
+  function search(event, cb, providers) {
     const formData = new FormData(event.target as HTMLFormElement);
     const arrayNames:namesType[] = ['checkin','checkout','price']
     const formDataEntries: ISearchFormData = {};
-
     arrayNames.forEach(key => {
       formDataEntries[key] = <namesType>formData.get(key)
     })
+    //создаю новый ключ и добавляю провайдеров
+    formDataEntries['provider'] = providers;
+    console.log(formDataEntries)
+    //Запросы на сервер
     searchFormFunc(formDataEntries);
-    cb(formDataEntries.price);
+    //getSerchResult - который рендерит данные или No Data
+    cb(data);
   }
 
   renderBlock(
@@ -40,10 +47,10 @@ export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival
             <input id="city" type="text" disabled value="Санкт-Петербург" />
             <input type="hidden" disabled value="59.9386,30.3141" />
           </div>
-          <!--<div class="providers">
-            <label><input type="checkbox" name="provider" value="homy" checked /> Homy</label>
-            <label><input type="checkbox" name="provider" value="flat-rent" checked /> FlatRent</label>
-          </div>--!>
+          <div class="providers">
+            <label><input type="checkbox" name="provider" value="homy" checked/> Homy</label>
+            <label><input type="checkbox" name="provider" value="flat-rent" checked/> FlatRent</label>
+          </div>
         </div>
         <div class="row">
           <div>
@@ -69,8 +76,12 @@ export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival
 
   const form = document.querySelector('form')
   form.addEventListener('submit', (event) => { 
-    event.preventDefault(); 
-    search(event, getSearchReasult);
+    event.preventDefault();
+    const checkedProviders:string[] = [];
+    (event.target as Element)
+    .querySelectorAll('input[name="provider"]:checked')
+    .forEach(el => checkedProviders.push(el.getAttribute("value")));
+    search(event, getSearchReasult, checkedProviders);
   });
 }
 

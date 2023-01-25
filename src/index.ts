@@ -3,7 +3,6 @@ import { renderSearchStubBlock } from './search-results.js'
 import { renderUserBlock } from './user.js'
 import { renderToast } from './lib.js';
 import { getUserData, getFavoritesAmount, User } from './userData.js';
-import {getBookingRooms} from './services/index.js';
 
 
 /*eslint-env browser*/
@@ -17,15 +16,17 @@ export const rerenderUserBlock = () => {
 }
 
 /*global*/
-window.addEventListener('DOMContentLoaded', () => {
-  rerenderUserBlock()
-  getBookingRooms()
-  renderSearchFormBlock()
-  renderSearchStubBlock()
-  renderToast(
-    {text: 'Это пример уведомления. Используйте его при необходимости', type: 'success'},
-    {name: 'Понял', handler: () => {console.log('Уведомление закрыто')}}
-  )
-})
+if (typeof window !== 'undefined') {
+  window.addEventListener('DOMContentLoaded', () => {
+    rerenderUserBlock()
+    renderSearchFormBlock()
+    renderSearchStubBlock()
+    renderToast(
+      {text: 'Это пример уведомления. Используйте его при необходимости', type: 'success'},
+      {name: 'Понял(a)', handler: () => {console.log('Уведомление закрыто')}}
+    )
+  })
+}
+
 
 
