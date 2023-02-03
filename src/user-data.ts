@@ -1,12 +1,11 @@
 export class User {
-  userName: string
-  avatarUrl: string
+  constructor(
+    public readonly id: number, 
+    public readonly userName: string, 
+    public readonly avatarUrl: string
+  ) {}
+};
 
-  constructor(userName: string, avatarUrl: string) {
-    this.userName = userName
-    this.avatarUrl = avatarUrl
-  }
-}
 const user = {
   id: 1,
   userName: 'Marina', 
@@ -14,7 +13,7 @@ const user = {
 };
 
 const checkout = typeof window !== 'undefined' ? localStorage.setItem('user', JSON.stringify(user)) : null
-//localStorage.setItem('user', JSON.stringify(user));
+
 
 /** Функция 
  * @param key {string} - получение данных из localStorage по ключу
@@ -29,19 +28,18 @@ export function getUserData(key: string) {
   } else {
     throw Error('user field is empty.')
   }
-
 }
 
 /** 
- * @param key {string} - получение данных из localStorage по ключу
- * @returns массив rooms из избранного или null
+ * @param key {string} - получение данных из localStorage по ключу(favoriteItems)
+ * @returns массив rooms из избранного или empty []
  */
 
 export function getFavoritesAmount(key: string) {
-  const amount:[] = JSON.parse(localStorage.getItem(key));
+  let amount:[] = JSON.parse(localStorage.getItem(key));
   if (amount) {
     return amount;
   } else {
-    throw Error('Empty')
+    return amount = []
   }
 }

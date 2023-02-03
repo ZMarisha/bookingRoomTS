@@ -2,7 +2,7 @@ import { renderSearchFormBlock } from './search-form.js'
 import { renderSearchStubBlock } from './search-results.js'
 import { renderUserBlock } from './user.js'
 import { renderToast } from './lib.js';
-import { getUserData, getFavoritesAmount, User } from './userData.js';
+import { getUserData, getFavoritesAmount, User } from './user-data.js';
 
 
 /*eslint-env browser*/

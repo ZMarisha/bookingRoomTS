@@ -1,5 +1,5 @@
 import { renderBlock } from './lib.js';
-import { getModalView } from './modalView.js';
+import { getModalView } from './modal-view.js';
 
 /** Функция рентерит пользователя
  * @param userName {string} - имя пользователя

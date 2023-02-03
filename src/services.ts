@@ -1,71 +1,53 @@
+import { Room } from './store/domain/room';
 import { FlatRentSdk } from './flat-rent-sdk.js';
-import { Place } from './ISearchResult.js';
 import { ISearchFormData } from './ISearchFormData.js';
-import { BookingRooms } from './ISearchResult.js';
-import { IDataServices } from './IDataServices.js';
+import { SearchFilter } from './store/domain/search-filter.js';
+import { HomyProvider } from './store/providers/homy/homy-provider.js';
+import { FlatRentProvider } from './store/providers/flat-rent/flat-rent-provider.js';
+import { getSearchReasult } from './render-search-result.js';
+import { sortByCheapPrice } from './sort-fns.js'
 
 
 export let selectedDates:ISearchFormData = {};
-export const data:IDataServices[] = [];
-const LOCALHOST_PATH = 'http://localhost:8000/'
-const BOOKING_ROOMS_PATH = `${LOCALHOST_PATH}db.backup.json`;
+const Homy = new HomyProvider();
+const FlatRent = new FlatRentProvider();
 
 export const searchFormFunc = async(formData: ISearchFormData) => {
   selectedDates = formData;
   const dateIn = new Date(formData["checkin"]).getTime();
   const dateOut = new Date(formData["checkout"]).getTime();
 
-  if (formData['provider'].find(el => el === 'flat-rent')) {
-    const flatRentSDK = new FlatRentSdk();
-    const parameters = {
-      city: 'Санкт-Петербург',
-      checkInDate: new Date(formData.checkin),
-      checkOutDate: new Date(formData.checkout),
-      priceLimit: Number(formData.price)
-    }
-   const getResponse = await flatRentSDK.search(parameters)
-   getResponse.forEach(el => {
-    data.push({
-      id: el['id'],
-      name: el['title'],
-      description: el['details'],
-      image: el['photos'][0],
-      price: el['totalPrice'] / 2,
-      coordinates: el['coordinates'],
-      remoteness: el['remoteness'],
-      bookedDates: [],
-    })
-   })
+  const flatRentSDK = new FlatRentSdk();
+  const filter:SearchFilter = {
+    dateArrival: dateIn,
+    dateDepature: dateOut,
+    maxPrice: Number(formData.price)
   }
+ 
   
-  if (formData['provider'].find(el => el === 'homy')) {
-    fetch(BOOKING_ROOMS_PATH)
-    .then((res) => {
-      return res.text()
-    })
-    .then<Place>((response) => {
-      return JSON.parse(response)
-    })
-    .then((data) => {
-      localStorage.setItem('places', JSON.stringify(data))
-    })
-    addPlaces (formData.price)
+  if (formData['provider'].find(el => el === 'flat-rent') && formData['provider'].find(el => el === 'homy')) {
+      Promise.all([Homy.find(filter), FlatRent.find(filter)]).then((results) => {
+        console.log(results)
+        let allResult:Room[] = [].concat(results[0], results[1]);
+        console.log(allResult)
+        const sort = allResult.sort(sortByCheapPrice);
+        getSearchReasult(sort)
+      })
   }
-  console.log(data)
+  else if (formData['provider'].find(el => el === 'homy')) {
+    Promise.all([Homy.find(filter)]).then((res) => {
+      const result: Room[] = [].concat(res[0]);
+      const sort = result.sort(sortByCheapPrice);
+      getSearchReasult(sort)
+    })
+  } 
+  else if (formData['provider'].find(el => el === 'flat-rent')) {
+    Promise.all([FlatRent.find(filter)]).then((res) => {
+      const result: Room[] = [].concat(res[0]);
+      console.log(result)
+      const sort = result.sort(sortByCheapPrice);
+      getSearchReasult(sort)
+    })
+  }
 }
 
-
-export function addPlaces (result) {
-  const arrayBookingRooms:Place[] = [];
-  const bookingRooms = JSON.parse(window.localStorage.getItem('places'));
-  Object.setPrototypeOf(bookingRooms, BookingRooms.prototype);
-  
-  Object.keys(bookingRooms.places).forEach(key => {
-    arrayBookingRooms.push(bookingRooms.places[key])
-  })
-  arrayBookingRooms.map(el => {
-    if (el.price <= Number(result)) {
-      data.push(el)
-    }
-  })
-};

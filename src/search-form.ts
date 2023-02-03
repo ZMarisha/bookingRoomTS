@@ -2,8 +2,7 @@ import { ISearchFormData } from './ISearchFormData.js';
 import { searchFormFunc } from './services.js';
 import { renderBlock } from './lib.js';
 import { getDateDeparture, getDateArrival, minDate, maxDate } from './date.js';
-import {getSearchReasult} from './renderSearchResult.js';
-import { data } from './services.js'
+
 
 
 type namesType = 'checkin' | 'checkout' | 'price';
@@ -13,14 +12,14 @@ const dateDeparture = getDateDeparture();
 const dateArrival = getDateArrival();
 
 
-
 export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival, dateDepartureDefault: string = dateDeparture): void {
   const mindate: string = minDate();
   const maxdate: string = maxDate();
 
   /** Функция собирает данные из формы
    */
-  function search(event, cb, providers) {
+  function search(event, providers:string[]) {
+    console.log(providers)
     const formData = new FormData(event.target as HTMLFormElement);
     const arrayNames:namesType[] = ['checkin','checkout','price']
     const formDataEntries: ISearchFormData = {};
@@ -32,8 +31,6 @@ export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival
     console.log(formDataEntries)
     //Запросы на сервер
     searchFormFunc(formDataEntries);
-    //getSerchResult - который рендерит данные или No Data
-    cb(data);
   }
 
   renderBlock(
@@ -81,7 +78,7 @@ export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival
     (event.target as Element)
     .querySelectorAll('input[name="provider"]:checked')
     .forEach(el => checkedProviders.push(el.getAttribute("value")));
-    search(event, getSearchReasult, checkedProviders);
+    search(event, checkedProviders);
   });
 }
 

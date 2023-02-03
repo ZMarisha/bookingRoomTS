@@ -1,8 +1,8 @@
+import { Room } from './store/domain/room';
 import { renderBlock } from "./lib.js";
 import { rerenderUserBlock } from './index.js';
-import { IDataServices } from "./IDataServices.js";
 
-type ModalView = Pick<IDataServices, 'id' | 'name' | 'image'>
+type ModalView = Pick<Room, 'id' | 'name' | 'image'>
 
 export function getModalView () {
   const favoriteData:ModalView[] = JSON.parse(window.localStorage.getItem('favoriteItems'));

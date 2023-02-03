@@ -55,4 +55,3 @@ export class FlatRentSdk {
   _writeDatabase(database: Object[] ):void
    _syncDatabase(database: Object[] ):void
 }
-
