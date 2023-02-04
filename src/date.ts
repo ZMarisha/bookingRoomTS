@@ -14,7 +14,7 @@ function increaseMonth(month: number): number {
 }
 
 
-const float = (n) => ((n < 10) ? '0' + n : n);
+const float = (n:number) => ((n < 10) ? '0' + n : n);
 
 /** время прибытия
  * @returns завтрашний день (по дефолту)
@@ -68,7 +68,8 @@ export function maxDate(): string {
   date.setFullYear(date.getFullYear());
   const year = date.getFullYear();
   const months = date.getMonth();
-  const month = float(increaseMonth(months))
+  const month = Number(float(increaseMonth(months)))
+  console.log(typeof month)
   const lastDay = new Date(year, month, 0);
   const day = float(lastDay.getDate());
   

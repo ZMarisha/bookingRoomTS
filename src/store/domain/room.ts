@@ -7,7 +7,7 @@ export class Room {
     public readonly description: string,
     public readonly bookedDates: [],
     public readonly price: number,
-    public readonly remoteness?: number
+    public readonly remoteness: number
   ) {}
 
   /**
@@ -15,7 +15,7 @@ export class Room {
    * Поэтому генерируем ID для внутреннего использования
    * Настоящий ID также доступен через originalId
    */
-   get id () {
+  get id () {
     return this.provider + '-' + this.originalId
   }
 

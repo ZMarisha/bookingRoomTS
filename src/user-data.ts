@@ -4,7 +4,7 @@ export class User {
     public readonly userName: string, 
     public readonly avatarUrl: string
   ) {}
-};
+}
 
 const user = {
   id: 1,
@@ -12,7 +12,7 @@ const user = {
   avatarUrl: 'https://abrakadabra.fun/uploads/posts/2022-03/1647809364_1-abrakadabra-fun-p-milie-avatarki-na-vatsap-2.jpg'
 };
 
-const checkout = typeof window !== 'undefined' ? localStorage.setItem('user', JSON.stringify(user)) : null
+typeof window !== 'undefined' ? localStorage.setItem('user', JSON.stringify(user)) : null
 
 
 /** Функция 
@@ -21,10 +21,11 @@ const checkout = typeof window !== 'undefined' ? localStorage.setItem('user', JS
  */
 
 export function getUserData(key: string) {
-  const user: unknown = JSON.parse(window.localStorage.getItem(key));
-  Object.setPrototypeOf(user, User.prototype);
-  if (user instanceof User) {
-    return user;
+  const data: string | null = window.localStorage.getItem(key)
+  if (data) {
+    const user: User = JSON.parse(data);
+    Object.setPrototypeOf(user, User.prototype);
+    return user
   } else {
     throw Error('user field is empty.')
   }
@@ -36,7 +37,11 @@ export function getUserData(key: string) {
  */
 
 export function getFavoritesAmount(key: string) {
-  let amount:[] = JSON.parse(localStorage.getItem(key));
+  const data = localStorage.getItem(key)
+  let amount:[] = []
+  if (data) {
+    amount = JSON.parse(data);
+  }
   if (amount) {
     return amount;
   } else {

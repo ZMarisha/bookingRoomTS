@@ -1,5 +1,5 @@
 import { Room } from './store/domain/room.js';
-import { rerenderUserBlock } from "./index.js";
+import { rerenderUserBlock } from './index.js';
 
 
 
@@ -9,13 +9,16 @@ let favoriteItems:FavoriteItems[] = [];
 
 export function writeState (id: string, result:Room[]) {
   console.log(result)
-  let filterItem = result.find(item => item.id === id);
-  let obj:FavoriteItems = {
-    id: filterItem.id,
-    name: filterItem.name,
-    image: filterItem.image
+  const filterItem: Room | undefined= result.find(item => item.id === id);
+  if  (filterItem) {
+    const obj:FavoriteItems = {
+      id: filterItem.id,
+      name: filterItem.name,
+      image: filterItem.image
+    }
+    favoriteItems.push(obj)
   }
-  favoriteItems.push(obj)
+
   console.log(favoriteItems);
   localStorage.setItem('favoriteItems', JSON.stringify(favoriteItems));
   //перерендеривает(запускает) renderUserBlock

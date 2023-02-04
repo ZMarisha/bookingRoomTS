@@ -1,9 +1,21 @@
-export function renderBlock (elementId, html) {
-  const element = document.getElementById(elementId)
-  element.innerHTML = html
+export function renderBlock (elementId:string, html:string) {
+  const element: HTMLElement | null = document.getElementById(elementId)
+  if (element) {
+    element.innerHTML = html
+  }
 }
 
-export function renderToast (message, action) {
+interface IMessage {
+  text:string
+  type:string
+}
+
+interface IAction {
+  name:string
+  handler: () => void
+}
+
+export function renderToast (message:IMessage | null, action:IAction | null) {
   let messageText = ''
   
   if (message !== null) {

@@ -7,7 +7,7 @@ export const localStorageKey: string
 
 export class FlatRentSdk {
   constructor()
-    /**
+  /**
     * Get flat by ID.
     *
     * @param {string} id Flat ID.
@@ -16,7 +16,7 @@ export class FlatRentSdk {
    
   get(id:string):Promise<Object | null>;
 
-    /**
+  /**
    * Search for flats.
    *
    * @param {Object} parameters Search parameters
@@ -50,8 +50,8 @@ export class FlatRentSdk {
   _generateDateRange(from: Date, to: Date): Date[];
   _generateTransactionId: () => number;
   _areAllDatesAvailable(flat: any, dateRange: any): any;
-   _formatFlatObject(flat: Object, nightNumber: number): Object;
+  _formatFlatObject(flat: Object, nightNumber: number): Object;
   _readDatabase(): Object[]
   _writeDatabase(database: Object[] ):void
-   _syncDatabase(database: Object[] ):void
+  _syncDatabase(database: Object[] ):void
 }

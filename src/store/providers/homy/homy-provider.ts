@@ -1,6 +1,6 @@
 import { Room } from './../../domain/room.js';
-import { Provider } from "../../domain/provider.js";
-import { SearchFilter } from "../../domain/search-filter.js";
+import { Provider } from '../../domain/provider.js';
+import { SearchFilter } from '../../domain/search-filter.js';
 import { HttpHelper } from '../../utils/http-helper.js';
 import { HomyRoomListResponse, HomyRoomResponse, HomyRoom } from './response-homy.js';
 
@@ -14,11 +14,11 @@ export class HomyProvider implements Provider {
 
   public find(filter: SearchFilter): Promise<Room[]> {
     return HttpHelper.fetchAsJson<HomyRoomListResponse>(
-      HomyProvider.LOCALHOST_PATH + "/places?" + this.convertFilterToQueryString(filter))
+      HomyProvider.LOCALHOST_PATH + '/places?' + this.convertFilterToQueryString(filter))
       .then((response) => {
         // проверим, что с ответ корректный
         this.assertIsValidResponse(response)
-        // сконвертируем JSON-ответ в экземпляры Book
+        // сконвертируем JSON-ответ
         return this.convertPlaceListResponse(response)
       })
   }
@@ -31,7 +31,7 @@ export class HomyProvider implements Provider {
 
   public getById(id: string): Promise<Room> {
     return HttpHelper.fetchAsJson<HomyRoomResponse>(
-      HomyProvider.LOCALHOST_PATH + "/place/" + id
+      HomyProvider.LOCALHOST_PATH + '/place/' + id
     ).then((response) => {
       this.assertIsValidResponse(response);
       return this.convertPlaceResponse(response.item);
@@ -46,20 +46,20 @@ export class HomyProvider implements Provider {
   }
 
   /**
-   * Проходимся по каждому объекту и конвертируем его в экземпляр Book
+   * Проходимся по каждому объекту и конвертируем его в экземпляр Room
    */
-   private convertPlaceListResponse(response: HomyRoomListResponse): Room[] {
+  private convertPlaceListResponse(response:HomyRoomListResponse): Room[] {
     const placesList: Room[] = [];
+    // response.map(el => placesList.push(this.convertPlaceResponse(el)))
+    console.log(response)
+    const res: any = response
     for (const key in response) {
-      placesList.push(this.convertPlaceResponse(response[key]));
+      placesList.push(this.convertPlaceResponse(res[key]));
     }
     return placesList;
   }
-  /**
-   * Здесь находится логика преобразования объекта книги из источника
-   * в экземпляр Book нашего приложения
-   */
-   private convertPlaceResponse(item: HomyRoom): Room {
+  
+  private convertPlaceResponse(item: HomyRoom): Room {
     return new Room(
       HomyProvider.provider,
       String(item.id),

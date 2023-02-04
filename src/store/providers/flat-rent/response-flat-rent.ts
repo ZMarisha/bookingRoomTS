@@ -1,7 +1,7 @@
 /**
  * Ответ с несколькими номерами
  */
- export interface FRRoomListResponse {
+export interface FRRoomListResponse {
   errorMessage?: string
   items: FRRoom[]
 }
@@ -21,8 +21,18 @@ export interface FRRoom {
   id: string
   title: string
   photos: string[]
-  price: number
+  totalPrice: number
   coordinates: number[]
   details: string
   bookedDates: []
+}
+
+export interface FlatRent {
+  id: string,
+  name: string,
+  image: string,
+  description: string,
+  bookedDates: [],
+  price: number,
+  remoteness: number,
 }

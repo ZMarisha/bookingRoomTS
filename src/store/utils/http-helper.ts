@@ -1,7 +1,6 @@
 export abstract class HttpHelper {
   /**
    * Метод выполняет запрос и преобразует ответ в JSON
-   * Тип ответа будет взять из дженерик параметра Response
    */
   public static fetchAsJson<Response>(input: RequestInfo, init?: RequestInit): Promise<Response> {
     return fetch(input, init)

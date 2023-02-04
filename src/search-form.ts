@@ -18,7 +18,7 @@ export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival
 
   /** Функция собирает данные из формы
    */
-  function search(event, providers:string[]) {
+  function search(event:Event, providers:string[]) {
     console.log(providers)
     const formData = new FormData(event.target as HTMLFormElement);
     const arrayNames:namesType[] = ['checkin','checkout','price']
@@ -71,15 +71,20 @@ export function renderSearchFormBlock ( dateArrivalDefault: string = dateArrival
     `
   )
 
-  const form = document.querySelector('form')
-  form.addEventListener('submit', (event) => { 
-    event.preventDefault();
-    const checkedProviders:string[] = [];
-    (event.target as Element)
-    .querySelectorAll('input[name="provider"]:checked')
-    .forEach(el => checkedProviders.push(el.getAttribute("value")));
-    search(event, checkedProviders);
-  });
+  const form = document.querySelector('form');
+  if (form) {
+    form.addEventListener('submit', (event) => { 
+      event.preventDefault();
+      const checkedProviders:string[] = [];
+      (event.target as Element).querySelectorAll('input[name="provider"]:checked').forEach(el => {
+        const res: string | null = el.getAttribute('value')
+        if (res) {
+          checkedProviders.push(res)
+        }
+      });
+      search(event, checkedProviders);
+    });
+  }
 }
 
 

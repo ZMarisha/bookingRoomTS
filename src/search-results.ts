@@ -48,7 +48,7 @@ export function renderSearchResultsBlock (result:Room[]):void {
   )
   renderResultBlock(result)
   const selectEl = document.querySelector('select');
-  selectEl.addEventListener('change', () => {
+  selectEl?.addEventListener('change', () => {
     const value = selectEl.value;
     const text = selectEl.options[selectEl.selectedIndex].text;
     console.log(value, text);
@@ -74,7 +74,7 @@ export function renderSearchResultsBlock (result:Room[]):void {
 function renderResultBlock (result:Room[]):void {
   renderBlock(
     'result',
-  `<ul class="results-list">
+    `<ul class="results-list">
   ${result.map(el => {
     return `
       <li class="result">
@@ -102,13 +102,13 @@ function renderResultBlock (result:Room[]):void {
     })
   }
   </ul>`
- )
- const ulEl = document.querySelectorAll('.result');
+  )
+  const ulEl = document.querySelectorAll('.result');
   ulEl.forEach(element => {
     const iconEl = element.querySelector('.favorites');
     const btn = element.querySelector('.submit');
 
-    iconEl.addEventListener('click', () => {
+    iconEl?.addEventListener('click', () => {
       const id:string = iconEl.id
       iconEl.classList.toggle('active');
   
@@ -120,7 +120,7 @@ function renderResultBlock (result:Room[]):void {
       }
     });
 
-    btn.addEventListener('click', () => {
+    btn?.addEventListener('click', () => {
       const btnId:string= btn.id;
       bookRoom(btnId, result)
     });

@@ -1,7 +1,7 @@
 /**
  * Ответ с несколькими номерами
  */
- export interface HomyRoomListResponse {
+export interface HomyRoomListResponse {
   errorMessage?: string
   items: HomyRoom[]
 }
