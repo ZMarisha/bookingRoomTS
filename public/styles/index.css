@@ -21,11 +21,12 @@ body {
     display: flex;
     align-items: center;
     width: 200px;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .avatar {
     width: 55px;
     height: 55px;
+    border-radius: 50%;
 }
 .info p {
     margin: 0;
@@ -327,4 +328,57 @@ span.forward {
 }
 .info-block p {
     margin-bottom: 16px;    
+}
+
+/* Контейнер, который затемняет страницу */
+.css-modal-view {
+    display:flex;
+    align-items:center;
+    justify-content:center;    
+    z-index: 4;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    animation: bg 0.5s ease;
+    background: rgba(51, 122, 183, 0.7);
+}
+.favorite_data {
+    font-size: 16px;
+    padding: 20px;
+    width: 80%;
+    z-index: 8;
+    max-width: 600px;
+    max-height: 70%;
+    transition: 0.5s;
+    border: 6px solid #BFE2FF;
+    border-radius: 12px;
+    background: #FFF;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2), 0 16px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    overflow: auto;
+}
+.heading_text {
+    font-size: 32px;
+    text-align: center;
+}
+
+.list {
+    list-style-type: none;
+    display: flex;
+}
+.list img {
+    display: block;
+    height: 150px;
+    width: 150px;
+}
+.btn_modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.toggle {
+    display: none;
 }
