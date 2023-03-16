@@ -21,8 +21,7 @@ export function getModalView () {
                   <p>${el.name}</p>
                 </li>
               `
-            })
-            }
+            })}
           </ul>
         </div>
         <button class="btn_modal">X</button>
